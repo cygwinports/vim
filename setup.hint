@@ -1,0 +1,12 @@
+category: Editors Gnome
+requires: cygwin gtk2-x11 libICE6 libSM6 libX11_6 libXt6 libncurses8 vim
+sdesc: "GTK interface to the Vim text editor"
+ldesc: "Vim (Vi IMproved) is an almost compatible version of the UNIX editor
+vi. Almost every possible command can be performed using only ASCII
+characters. Only the 'Q' command is missing (you do not need it). Many
+new features have been added: multilevel undo, command line history,
+file name completion, block operations, and editing of binary data.
+
+This package includes the GTK2 GUI; it depends on the vim package for
+the common vim data files."
+
