@@ -11,18 +11,18 @@ the common vim data files.
 Runtime requirements:
   cygwin-1.5.20-1
   gtk2-x11-2.8.17-1
-  libICE6-1.0.0-1
-  libSM6-1.0.0-1
-  libX11_6-1.0.0-2
-  libXt6-1.0.0-1
+  libICE6-1.0.1-1
+  libSM6-1.0.1-1
+  libX11_6-1.0.2-1
+  libXt6-1.0.1-1
   libncurses8-5.5-2
-  vim-7.0.017-2
+  vim-7.0.035-2
 
 Build requirements:
 (besides corresponding devel packages)
   cygwin-1.5.20-1
   binutils-20050610-1
-  cygport-0.2.1-1
+  cygport-0.2.2-1
   gawk-3.1.5-2
   gcc-core-3.4.4-1
   make-3.80-1
@@ -38,15 +38,15 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack gvim-7.0.017-1-src.tar.bz2
+  unpack gvim-7.0.035-1-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./gvim-7.0.017-1.sh all
+  cygport ./gvim-7.0.035-1.sh all
 
 This will create:
-  /usr/src/gvim-7.0.017-1-src.tar.bz2
-  /usr/src/gvim-7.0.017-1.tar.bz2
+  /usr/src/gvim-7.0.035-1-src.tar.bz2
+  /usr/src/gvim-7.0.035-1.tar.bz2
 
 -------------------------------------------
 
@@ -58,8 +58,8 @@ Files included in the binary package:
   /usr/bin/rgview
   /usr/bin/rgvim
   /usr/share/applications/gvim.desktop
-  /usr/share/doc/Cygwin/gvim-7.0.017.README
-  /usr/share/doc/gvim-7.0.017/README.txt
+  /usr/share/doc/Cygwin/gvim-7.0.035.README
+  /usr/share/doc/gvim-7.0.035/README.txt
   /usr/share/icons/hicolor/16x16/apps/vim.png
   /usr/share/icons/hicolor/32x32/apps/vim.png
   /usr/share/icons/hicolor/48x48/apps/vim.png
@@ -72,6 +72,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 7.0.035-1 -----
+Updated sources to patch 035.
 
 ----- version 7.0.017-1 -----
 Version bump for Vim 7.0.
