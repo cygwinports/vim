@@ -38,15 +38,15 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack gvim-7.0.201-1-src.tar.bz2
+  unpack gvim-7.0.235-1-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./gvim-7.0.201-1.cygport all
+  cygport ./gvim-7.0.235-1.cygport all
 
 This will create:
-  /usr/src/gvim-7.0.201-1-src.tar.bz2
-  /usr/src/gvim-7.0.201-1.tar.bz2
+  /usr/src/gvim-7.0.235-1-src.tar.bz2
+  /usr/src/gvim-7.0.235-1.tar.bz2
 
 -------------------------------------------
 
@@ -59,8 +59,8 @@ Files included in the binary package:
   /usr/bin/rgview
   /usr/bin/rgvim
   /usr/share/applications/gvim.desktop
-  /usr/share/doc/Cygwin/gvim-7.0.201.README
-  /usr/share/doc/gvim-7.0.201/README.txt
+  /usr/share/doc/Cygwin/gvim-7.0.235.README
+  /usr/share/doc/gvim-7.0.235/README.txt
   /usr/share/icons/hicolor/16x16/apps/vim.png
   /usr/share/icons/hicolor/32x32/apps/vim.png
   /usr/share/icons/hicolor/48x48/apps/vim.png
@@ -73,6 +73,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 7.0.235-1 -----
+Updated sources to patch 235.
 
 ----- version 7.0.201-1 -----
 Updated sources to patch 201.
