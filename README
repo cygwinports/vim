@@ -10,19 +10,24 @@ the common vim data files.
 
 Runtime requirements:
   cygwin-1.5.24-2
-  gtk2-x11-2.10.9-1
+  gdk-pixbuf2-2.10.11-1
+  glib2-2.12.11-1
+  gtk2-x11-2.10.11-1
   libICE6-1.0.2-1
   libSM6-1.0.2-1
   libX11_6-1.1.1-1
   libXt6-1.0.4-1
+  libiconv2-1.11-1
+  libintl8-0.15-1
   libncurses8-5.5-3
-  vim-7.0.x
+  pango-1.14.10-1
+  vim-7.1.x
 
 Build requirements:
 (besides corresponding devel packages)
   cygwin-1.5.24-2
   binutils-20060817-1
-  cygport-0.2.10-1
+  cygport-0.2.11-1
   gawk-3.1.5-4
   gcc-core-3.4.4-3
   make-3.81-1
@@ -73,6 +78,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 7.1.002-1 -----
+Version bump for Vim 7.1.
 
 ----- version 7.0.235-1 -----
 Updated sources to patch 235.
