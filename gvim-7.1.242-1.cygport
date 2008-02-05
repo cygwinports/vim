@@ -1,0 +1,45 @@
+ORIG_PN=vim
+slot="${PV_MAJ_MIN}"
+
+DESCRIPTION="GTK Vim frontend"
+HOMEPAGE="http://www.vim.org/"
+SRC_URI="mirror://vim/unix/${ORIG_PN}-${slot}.tar.bz2
+	mirror://vim/extra/${ORIG_PN}-${slot}-extra.tar.gz
+	mirror://vim/extra/${ORIG_PN}-${slot}-lang.tar.gz
+	mirror://portage/app-editors/${PN}/files/${PN}.desktop-r1"
+SRC_DIR="${ORIG_PN}${slot//.}"
+
+for n in $(seq -w 001 ${PVP[2]})
+do
+	PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}"
+done
+
+src_compile() {
+	cd ${B}
+	lndirs
+	cygmake -j1
+}
+
+src_install() {
+	local x z
+
+	cd ${B}
+	dobin src/gvim.exe
+
+	dodir /usr/share/man/man1
+	echo '.so vim.1' > ${D}/usr/share/man/man1/gvim.1
+
+	for x in eview evim gview gvimdiff rgview rgvim
+	do
+		dosym gvim.exe /usr/bin/$x
+		echo '.so vim.1' > ${D}/usr/share/man/man1/$x.1
+	done
+
+	for z in 16x16 32x32 48x48
+	do
+		insinto /usr/share/icons/hicolor/$z/apps
+		newins ${S}/runtime/vim$z.png vim.png
+	done
+
+	newmenu ${S}/${PN}.desktop-r1 ${PN}.desktop
+}
