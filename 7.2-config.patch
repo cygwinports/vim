@@ -1,14 +1,14 @@
---- origsrc/vim71/src/Makefile	2008-02-04 20:16:53.687500000 -0600
-+++ src/vim71/src/Makefile	2008-02-04 20:17:19.953125000 -0600
-@@ -308,6 +308,7 @@
- #CONF_ARGS = --exec-prefix=/usr
- #CONF_ARGS = --with-vim-name=vim7 --with-ex-name=ex7 --with-view-name=view7
+--- origsrc/vim72/src/Makefile	2008-08-09 09:50:04.000000000 -0500
++++ src/vim72/src/Makefile	2008-08-10 16:47:55.700170200 -0500
+@@ -312,6 +312,7 @@
  #CONF_ARGS = --with-global-runtime=/etc/vim
+ #CONF_ARGS = --with-local-dir=/usr/share
+ #CONF_ARGS = --without-local-dir
 +CONF_ARGS  = --prefix=/usr --exec-prefix=/usr --with-vim-name=gvim --with-global-runtime=/usr/share/vim
  
  # Use this one if you distribute a modified version of Vim.
  #CONF_ARGS = --with-modified-by="John Doe"
-@@ -321,13 +322,13 @@
+@@ -325,13 +326,13 @@
  # Uncomment one of these lines if you have that GUI but don't want to use it.
  # The automatic check will use another one that can be found.
  # Gnome is disabled by default, it may cause trouble.
@@ -26,7 +26,7 @@
  
  # Uncomment one of these lines to select a specific GUI to use.
  # When using "yes" or nothing, configure will use the first one found: GTK+,
-@@ -345,7 +346,7 @@
+@@ -349,7 +350,7 @@
  #CONF_OPT_GUI = --enable-gui=gtk
  #CONF_OPT_GUI = --enable-gui=gtk --disable-gtktest
  #CONF_OPT_GUI = --enable-gui=gtk2
@@ -35,7 +35,7 @@
  #CONF_OPT_GUI = --enable-gui=gnome
  #CONF_OPT_GUI = --enable-gui=gnome2
  #CONF_OPT_GUI = --enable-gui=gnome2 --disable-gtktest
-@@ -457,10 +458,10 @@
+@@ -466,10 +467,10 @@
  #CONF_OPT_FEAT = --with-features=small
  #CONF_OPT_FEAT = --with-features=normal
  #CONF_OPT_FEAT = --with-features=big
@@ -48,7 +48,7 @@
  
  # X WINDOWS DISABLE - For creating a plain Vim without any X11 related fancies
  # (otherwise Vim configure will try to include xterm titlebar access)
-@@ -520,7 +521,7 @@
+@@ -529,7 +530,7 @@
  #CFLAGS = -g -O2 -fno-strength-reduce -Wall -Wshadow -Wmissing-prototypes
  #CFLAGS = -g -O2 -fno-strength-reduce -Wall -Wmissing-prototypes
  #CFLAGS = -g -Wall -Wmissing-prototypes

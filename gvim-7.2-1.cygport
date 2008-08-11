@@ -4,15 +4,20 @@ slot="${PV_MAJ_MIN}"
 DESCRIPTION="GTK Vim frontend"
 HOMEPAGE="http://www.vim.org/"
 SRC_URI="mirror://vim/unix/${ORIG_PN}-${slot}.tar.bz2
-	mirror://vim/extra/${ORIG_PN}-${slot}-extra.tar.gz
-	mirror://vim/extra/${ORIG_PN}-${slot}-lang.tar.gz
-	mirror://portage/app-editors/${PN}/files/${PN}.desktop-r1"
+         mirror://vim/extra/${ORIG_PN}-${slot}-extra.tar.gz
+         mirror://vim/extra/${ORIG_PN}-${slot}-lang.tar.gz
+         mirror://portage/app-editors/${PN}/files/${PN}.desktop-r1"
 SRC_DIR="${ORIG_PN}${slot//.}"
 
-for n in $(seq -w 001 ${PVP[2]})
-do
-	PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}"
-done
+if defined PVP[2]
+then
+	for n in $(seq -w 001 ${PVP[2]})
+	do
+		PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}"
+	done
+fi
+
+PATCH_URI+=" 7.2-config.patch"
 
 src_compile() {
 	cd ${B}
@@ -38,7 +43,7 @@ src_install() {
 	for z in 16x16 32x32 48x48
 	do
 		insinto /usr/share/icons/hicolor/$z/apps
-		newins ${S}/runtime/vim$z.png vim.png
+		newins ${S}/runtime/vim$z.png gvim.png
 	done
 
 	newmenu ${S}/${PN}.desktop-r1 ${PN}.desktop
