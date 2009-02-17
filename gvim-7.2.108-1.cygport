@@ -1,5 +1,5 @@
 ORIG_PN=vim
-slot="${PV_MAJ_MIN}"
+slot="${PV[1]}.${PV[2]}"
 
 DESCRIPTION="GTK Vim frontend"
 HOMEPAGE="http://www.vim.org/"
@@ -9,9 +9,9 @@ SRC_URI="mirror://vim/unix/${ORIG_PN}-${slot}.tar.bz2
          mirror://portage/app-editors/${PN}/files/${PN}.desktop-r1"
 SRC_DIR="${ORIG_PN}${slot//.}"
 
-if defined PVP[2]
+if defined PV[3]
 then
-	for n in $(seq -w 001 ${PVP[2]})
+	for n in $(seq -w 001 ${PV[3]})
 	do
 		PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}"
 	done

@@ -1,5 +1,5 @@
 category: Editors Gnome
-requires: cygwin glib2 gtk2-x11 libICE6 libSM6 libX11_6 libXt6 libiconv2 libintl8 libncurses8 pango vim
+requires: cygwin libglib2.0_0 libgtk2.0_0 libICE6 libiconv2 libintl8 libncurses8 libpango1.0_0 libSM6 libX11_6 libXt6 vim
 sdesc: "GTK interface to the Vim text editor"
 ldesc: "Vim (Vi IMproved) is an almost compatible version of the UNIX 
 editor vi. Almost every possible command can be performed using only 
