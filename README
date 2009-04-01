@@ -9,25 +9,26 @@ This package includes the GTK2 GUI; it depends on the vim package for
 the common vim data files.
 
 Runtime requirements:
-  cygwin-1.5.25-15
-  libgdk_pixbuf2.0_0-2.14.7-2
-  libglib2.0_0-2.18.4-1
-  libgtk2.0_0-2.14.7-2
-  libICE6-1.0.4-1
-  libiconv2-1.11-1
-  libintl8-0.15-1
-  libncurses8-5.5-3
-  libpango1.0_0-1.22.4-1
-  libSM6-1.1.0-1
-  libX11_6-1.1.5-2
-  libXt6-1.0.5-2
+  cygwin-1.7.0-44
+  libgcc1-4.3.2-2
+  libgdk_pixbuf2.0_0-2.16.0-1
+  libglib2.0_0-2.20.0-1
+  libgtk2.0_0-2.16.0-1
+  libICE6-1.0.4-10
+  libiconv2-1.12-10
+  libintl8-0.17-10
+  libncurses9-5.7-13
+  libpango1.0_0-1.24.0-1
+  libSM6-1.1.0-10
+  libX11_6-1.2-10
+  libXt6-1.0.5-10
   vim-7.2.x
 
 Build requirements:
 (besides corresponding devel packages)
   binutils-20080624-2
-  cygport-0.4.3-1
-  gawk-3.1.6-1
+  cygport-0.9.6-1
+  gawk-3.1.6-2
   gcc-core-3.4.4-3
   make-3.81-1
   pkg-config-0.23a-2
@@ -42,15 +43,15 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack gvim-7.2.108-1-src.tar.bz2
+  unpack gvim-7.2.148-1-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./gvim-7.2.108-1.cygport all
+  cygport ./gvim-7.2.148-1.cygport all
 
 This will create:
-  /usr/src/gvim-7.2.108-1-src.tar.bz2
-  /usr/src/gvim-7.2.108-1.tar.bz2
+  /usr/src/gvim-7.2.148-1-src.tar.bz2
+  /usr/src/gvim-7.2.148-1.tar.bz2
 
 -------------------------------------------
 
@@ -65,7 +66,7 @@ Files included in the binary package:
   /usr/bin/rgview
   /usr/bin/rgvim
   /usr/share/applications/gvim.desktop
-  /usr/share/doc/gvim-7.2.108/README.txt
+  /usr/share/doc/gvim/README.txt
   /usr/share/icons/hicolor/16x16/apps/gvim.png
   /usr/share/icons/hicolor/32x32/apps/gvim.png
   /usr/share/icons/hicolor/48x48/apps/gvim.png
@@ -81,51 +82,8 @@ Files included in the binary package:
 
 Port Notes:
 
------ version 7.2.108-1 -----
-Updated sources to patch 108.
-
------ version 7.2-1 -----
-Version bump.
-
------ version 7.1.242-1 -----
-Updated sources to patch 242.
-
------ version 7.1.175-1 -----
-Updated sources to patch 175.
-
------ version 7.1.125-1 -----
-Updated sources to patch 125.
-Installed eview and evim symlinks.
-
------ version 7.1.028-1 -----
-Updated sources to patch 028.
-
------ version 7.1.002-1 -----
-Version bump for Vim 7.1.
-
------ version 7.0.235-1 -----
-Updated sources to patch 235.
-
------ version 7.0.201-1 -----
-Updated sources to patch 201.
-
------ version 7.0.188-1 -----
-Updated sources to patch 188.
-
------ version 7.0.178-1 -----
-Updated sources to patch 178.
-
------ version 7.0.035-1 -----
-Updated sources to patch 035.
-
------ version 7.0.017-1 -----
-Version bump for Vim 7.0.
-
------ version 6.4-1 -----
-Version bump.
-
------ version 6.3-1 -----
-Initial release for Cygwin.
+----- version 7.2.148-1 -----
+Initial release for Cygwin 1.7.
 
 
 Cygwin port maintained by:

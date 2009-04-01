@@ -17,12 +17,15 @@ then
 	done
 fi
 
-PATCH_URI+=" 7.2-config.patch"
-
 src_compile() {
 	cd ${B}
 	lndirs
-	cygmake -j1
+	cygmake -j1 \
+		CC="${CC}" CFLAGS="${CFLAGS} -fno-strength-reduce" LDFLAGS="${LDFLAGS}" \
+		CONF_ARGS="--prefix=/usr --with-vim-name=gvim --with-view-name=gview --with-global-runtime=/usr/share/vim" \
+		CONF_OPT_FEAT="--with-features=huge" \
+		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
+		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin@cygwin.com>\""
 }
 
 src_install() {
