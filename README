@@ -9,29 +9,29 @@ This package includes the GTK2 GUI; it depends on the vim package for
 the common vim data files.
 
 Runtime requirements:
-  cygwin-1.7.0-44
+  cygwin-1.7.0-60
   libgcc1-4.3.2-2
-  libgdk_pixbuf2.0_0-2.16.0-1
-  libglib2.0_0-2.20.0-1
-  libgtk2.0_0-2.16.0-1
+  libgdk_pixbuf2.0_0-2.16.5-1
+  libglib2.0_0-2.20.4-1
+  libgtk2.0_0-2.16.5-1
   libICE6-1.0.4-10
-  libiconv2-1.12-10
-  libintl8-0.17-10
+  libiconv2-1.13-10
+  libintl8-0.17-11
   libncurses9-5.7-13
-  libpango1.0_0-1.24.0-1
+  libpango1.0_0-1.24.5-1
   libSM6-1.1.0-10
-  libX11_6-1.2-10
-  libXt6-1.0.5-10
+  libX11_6-1.2.2-1
+  libXt6-1.0.6-1
   vim-7.2.x
 
 Build requirements:
 (besides corresponding devel packages)
-  binutils-20080624-2
-  cygport-0.9.6-1
+  binutils-2.19.51-1
+  cygport-0.9.9-1
   gawk-3.1.6-2
-  gcc-core-3.4.4-3
-  make-3.81-1
-  pkg-config-0.23a-2
+  gcc4-core-4.3.2-2
+  make-3.81-2
+  pkg-config-0.23b-10
   sed-4.1.5-2
 
 Canonical homepage:
@@ -43,15 +43,15 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack gvim-7.2.148-1-src.tar.bz2
+  unpack gvim-7.2.245-1-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./gvim-7.2.148-1.cygport all
+  cygport ./gvim-7.2.245-1.cygport all
 
 This will create:
-  /usr/src/gvim-7.2.148-1-src.tar.bz2
-  /usr/src/gvim-7.2.148-1.tar.bz2
+  /usr/src/gvim-7.2.245-1-src.tar.bz2
+  /usr/src/gvim-7.2.245-1.tar.bz2
 
 -------------------------------------------
 
@@ -81,6 +81,9 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 7.2.245-1 -----
+Update to patch 245.
 
 ----- version 7.2.148-1 -----
 Initial release for Cygwin 1.7.
