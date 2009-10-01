@@ -9,20 +9,21 @@ This package includes the GTK2 GUI; it depends on the vim package for
 the common vim data files.
 
 Runtime requirements:
-  cygwin-1.7.0-60
+  cygwin-1.7.0-61
+  alternatives
   libgcc1-4.3.2-2
-  libgdk_pixbuf2.0_0-2.16.5-1
-  libglib2.0_0-2.20.4-1
-  libgtk2.0_0-2.16.5-1
+  libgdk_pixbuf2.0_0-2.16.6-1
+  libglib2.0_0-2.20.5-1
+  libgtk2.0_0-2.16.6-1
   libICE6-1.0.4-10
   libiconv2-1.13-10
   libintl8-0.17-11
   libncurses9-5.7-13
   libpango1.0_0-1.24.5-1
   libSM6-1.1.0-10
-  libX11_6-1.2.2-1
+  libX11_6-1.2.2-2
   libXt6-1.0.6-1
-  vim-7.2.x
+  vim-7.2.264-1
 
 Build requirements:
 (besides corresponding devel packages)
@@ -43,15 +44,15 @@ Canonical download:
 -------------------------------------------
 
 Build instructions:
-  unpack gvim-7.2.245-1-src.tar.bz2
+  unpack gvim-7.2.264-1-src.tar.bz2
     if you use setup to install this src package, it will be
 	 unpacked under /usr/src automatically
   cd /usr/src
-  cygport ./gvim-7.2.245-1.cygport all
+  cygport ./gvim-7.2.264-1.cygport all
 
 This will create:
-  /usr/src/gvim-7.2.245-1-src.tar.bz2
-  /usr/src/gvim-7.2.245-1.tar.bz2
+  /usr/src/gvim-7.2.264-1-src.tar.bz2
+  /usr/src/gvim-7.2.264-1.tar.bz2
 
 -------------------------------------------
 
@@ -81,6 +82,11 @@ Files included in the binary package:
 ------------------
 
 Port Notes:
+
+----- version 7.2.264-1 -----
+Update to patch 264.
+Uses alternatives to provide vim/view/vimdiff/rvim/rview symlinks 
+which support the '-g' flag.
 
 ----- version 7.2.245-1 -----
 Update to patch 245.

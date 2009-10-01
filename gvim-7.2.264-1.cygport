@@ -17,6 +17,8 @@ then
 	done
 fi
 
+gvim_CONTENTS="etc/postinstall/ etc/preremove/ usr/"
+
 src_compile() {
 	cd ${B}
 	lndirs
@@ -25,7 +27,7 @@ src_compile() {
 		CONF_ARGS="--prefix=/usr --with-vim-name=gvim --with-view-name=gview --with-global-runtime=/usr/share/vim" \
 		CONF_OPT_FEAT="--with-features=huge" \
 		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
-		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin@cygwin.com>\""
+		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin/X <cygwin-xfree@cygwin.com>\""
 }
 
 src_install() {
