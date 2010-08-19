@@ -4,9 +4,8 @@ slot="${PV[1]}.${PV[2]}"
 DESCRIPTION="GTK Vim frontend"
 HOMEPAGE="http://www.vim.org/"
 SRC_URI="mirror://vim/unix/${ORIG_PN}-${slot}.tar.bz2
-         mirror://vim/extra/${ORIG_PN}-${slot}-extra.tar.gz
-         mirror://vim/extra/${ORIG_PN}-${slot}-lang.tar.gz
-         mirror://portage/app-editors/${PN}/files/${PN}.desktop-r1"
+         mirror://portage/app-editors/${PN}/files/${PN}-completion
+         mirror://portage/app-editors/${PN}/files/${PN}.desktop-r2"
 SRC_DIR="${ORIG_PN}${slot//.}"
 
 if defined PV[3]
@@ -17,13 +16,14 @@ then
 	done
 fi
 
-gvim_CONTENTS="etc/postinstall/ etc/preremove/ usr/"
+gvim_CONTENTS="etc/bash_completion.d/ etc/postinstall/ etc/preremove/ usr/"
 
 src_compile() {
 	cd ${B}
 	lndirs
 	cygmake -j1 \
-		CC="${CC}" CFLAGS="${CFLAGS} -fno-strength-reduce" LDFLAGS="${LDFLAGS}" \
+		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
+		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
 		CONF_ARGS="--prefix=/usr --with-vim-name=gvim --with-view-name=gview --with-global-runtime=/usr/share/vim" \
 		CONF_OPT_FEAT="--with-features=huge" \
 		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
@@ -51,5 +51,8 @@ src_install() {
 		newins ${S}/runtime/vim$z.png gvim.png
 	done
 
-	newmenu ${S}/${PN}.desktop-r1 ${PN}.desktop
+	newmenu ${S}/${PN}.desktop-r2 ${PN}.desktop
+
+	insinto /etc/bash_completion.d
+	doins ${S}/${PN}-completion
 }
