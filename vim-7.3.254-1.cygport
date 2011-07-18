@@ -1,0 +1,92 @@
+slot="${PV[1]}.${PV[2]}"
+
+DESCRIPTION="GTK Vim frontend"
+HOMEPAGE="http://www.vim.org/"
+SRC_URI="mirror://vim/unix/${PN}-${slot}.tar.bz2
+         mirror://portage/app-editors/vim/files/vim-completion
+         mirror://portage/app-editors/gvim/files/gvim-completion
+         mirror://portage/app-editors/gvim/files/gvim.desktop-r2"
+SRC_DIR="${PN}${slot//.}"
+
+if defined PV[3]
+then
+	for n in $(seq -w 001 ${PV[3]})
+	do
+		PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}"
+	done
+fi
+
+PKG_NAMES="vim vim-common gvim xxd"
+vim_CONTENTS="--exclude=evi* --exclude=*gvi* --exclude=xxd* etc/p*/vim.* usr/bin/"
+vim_common_CONTENTS="--exclude=xxd.1* etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
+gvim_CONTENTS="etc/p*/gvim.* usr/bin/evi* usr/bin/*gvi* usr/share/applications/ usr/share/icons/"
+xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
+
+DIFF_EXCLUDES="tags"
+
+src_compile() {
+	mkdir -p ${B}/console
+	cd ${B}/console
+	lndirs ${S}
+	cygmake -j1 \
+		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
+		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
+		CONF_ARGS="--prefix=/usr --with-global-runtime=/usr/share/vim" \
+		CONF_OPT_FEAT="--with-features=huge" \
+		CONF_OPT_GUI="--disable-gui --without-x" \
+		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin@cygwin.com>\""
+
+	mkdir -p ${B}/gui
+	cd ${B}/gui
+	lndirs ${S}
+	cygmake -j1 \
+		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
+		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
+		CONF_ARGS="--prefix=/usr --with-global-runtime=/usr/share/vim" \
+		CONF_OPT_FEAT="--with-features=huge" \
+		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
+		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin-xfree@cygwin.com>\""
+}
+
+src_install() {
+	local x z
+
+	cd ${B}/gui/src
+	cygmake installvimbin -j1 DESTDIR=${D}
+
+	mv ${D}/usr/bin/{,g}vim.exe
+
+	cd ${B}/console
+	cygmake install -j1 \
+		DESTDIR=${D} INSTALL_DATA="cp -L" INSTALL_DATA_R="cp -Lr"
+
+	mv ${D}/usr/bin/vim{,-nox}.exe
+
+	for x in eview evim gview gvimdiff rgview rgvim
+	do
+		ln -sfn gvim.exe ${D}/usr/bin/${x}
+		for man1dir in $(find ${D}/usr/share/man -name man1)
+		do
+			echo ".so vim.1" > ${man1dir}/${x}.1
+		done
+	done
+	for x in ex vi
+	do
+		ln -sfn vim-nox.exe ${D}/usr/bin/${x}
+	done
+	for x in rview rvim view vimdiff
+	do
+		rm -f ${D}/usr/bin/${x}
+	done
+
+	for z in 16x16 32x32 48x48
+	do
+		insinto /usr/share/icons/hicolor/$z/apps
+		newins ${S}/runtime/vim$z.png gvim.png
+	done
+
+	newmenu ${S}/gvim.desktop-r2 gvim.desktop
+
+	insinto /etc/bash_completion.d
+	doins ${S}/gvim-completion ${S}/vim-completion
+}

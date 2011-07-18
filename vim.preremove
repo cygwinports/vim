@@ -1,3 +1,1 @@
-bindir=/usr/bin
-
-/usr/sbin/update-alternatives --remove vim ${bindir}/vim-nox.exe
+/usr/sbin/update-alternatives --remove vim /usr/bin/vim-nox.exe

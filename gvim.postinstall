@@ -1,8 +1,6 @@
-bindir=/usr/bin
-
 /usr/sbin/update-alternatives \
-	--install ${bindir}/vim vim ${bindir}/gvim.exe 20 \
-	--slave   ${bindir}/view view ${bindir}/gvim.exe \
-	--slave   ${bindir}/vimdiff vimdiff ${bindir}/gvim.exe \
-	--slave   ${bindir}/rvim rvim ${bindir}/gvim.exe \
-	--slave   ${bindir}/rview rview ${bindir}/gvim.exe
+	--install /usr/bin/vim vim /usr/bin/gvim.exe 20 \
+	--slave   /usr/bin/view view /usr/bin/gvim.exe \
+	--slave   /usr/bin/vimdiff vimdiff /usr/bin/gvim.exe \
+	--slave   /usr/bin/rvim rvim /usr/bin/gvim.exe \
+	--slave   /usr/bin/rview rview /usr/bin/gvim.exe
