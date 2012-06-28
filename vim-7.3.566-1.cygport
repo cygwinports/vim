@@ -28,11 +28,11 @@ src_compile() {
 	mkdir -p ${B}/console
 	cd ${B}/console
 	lndirs ${S}
-	cygmake -j1 \
+	cygmake -j1 -f ${S}/Makefile \
 		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
 		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
 		CONF_ARGS="--prefix=/usr --with-global-runtime=/usr/share/vim" \
-		CONF_OPT_FEAT="--with-features=huge" \
+		CONF_OPT_FEAT="--with-features=huge --disable-gpm --disable-sysmouse" \
 		CONF_OPT_GUI="--disable-gui --without-x" \
 		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin@cygwin.com>\""
 
@@ -43,7 +43,7 @@ src_compile() {
 		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
 		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
 		CONF_ARGS="--prefix=/usr --with-global-runtime=/usr/share/vim" \
-		CONF_OPT_FEAT="--with-features=huge" \
+		CONF_OPT_FEAT="--with-features=huge --disable-gpm --disable-sysmouse" \
 		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
 		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin-xfree@cygwin.com>\""
 }
