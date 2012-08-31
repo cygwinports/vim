@@ -1,6 +1,11 @@
 slot="${PV[1]}.${PV[2]}"
 
-DESCRIPTION="GTK Vim frontend"
+CATEGORY="Editors"
+SUMMARY="Vi IMproved - enhanced vi editor"
+DESCRIPTION="Vim (Vi IMproved) is an almost compatible version of the UNIX
+editor vi. Almost every possible command can be performed using only ASCII
+characters. Many new features have been added: multilevel undo, command line
+history, file name completion, block operations, and editing of binary data."
 HOMEPAGE="http://www.vim.org/"
 SRC_URI="mirror://vim/unix/${PN}-${slot}.tar.bz2
          mirror://portage/app-editors/vim/files/vim-completion
@@ -17,10 +22,17 @@ then
 fi
 
 PKG_NAMES="vim vim-common gvim xxd"
-vim_CONTENTS="--exclude=evi* --exclude=*gvi* --exclude=xxd* etc/p*/vim.* usr/bin/"
+vim_REQUIRES="vim-common"
+vim_CONTENTS="--exclude=evi* --exclude=*gvi* --exclude=xxd* etc/p*/vim-* usr/bin/"
+vim_common_SUMMARY="${SUMMARY} (common runtime)"
+vim_common_REQUIRES="xxd"
 vim_common_CONTENTS="--exclude=xxd.1* etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
+gvim_SUMMARY="GTK interface to the Vim text editor"
+gvim_REQUIRES="vim-common font-adobe-dpi75"
 gvim_CONTENTS="etc/p*/gvim.* usr/bin/evi* usr/bin/*gvi* usr/share/applications/ usr/share/icons/"
+xxd_SUMMARY="Hexdump utility"
 xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
+PKG_IGNORE="etc/postinstall/vim.sh"
 
 DIFF_EXCLUDES="tags"
 
@@ -28,21 +40,25 @@ src_compile() {
 	mkdir -p ${B}/console
 	cd ${B}/console
 	lndirs ${S}
-	cygmake -j1 -f ${S}/Makefile \
-		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
+	cygmake -j1 \
+		CC="${CC}" \
+		CFLAGS="${CFLAGS} -fno-strength-reduce -fdebug-prefix-map=${B}/console=/usr/src/debug/${PF}" \
+		CPPFLAGS="${CPPFLAGS} -I/usr/include/ncursesw" \
 		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
-		CONF_ARGS="--prefix=/usr --with-global-runtime=/usr/share/vim" \
+		CONF_ARGS="--prefix=/usr" \
 		CONF_OPT_FEAT="--with-features=huge --disable-gpm --disable-sysmouse" \
 		CONF_OPT_GUI="--disable-gui --without-x" \
-		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin@cygwin.com>\""
+		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin-xfree@cygwin.com>\""
 
 	mkdir -p ${B}/gui
 	cd ${B}/gui
 	lndirs ${S}
 	cygmake -j1 \
-		CC="${CC} ${CFLAGS} -fno-strength-reduce -I/usr/include/ncursesw" \
+		CC="${CC}" \
+		CFLAGS="${CFLAGS} -fno-strength-reduce -fdebug-prefix-map=${B}/gui=/usr/src/debug/${PF}" \
+		CPPFLAGS="${CPPFLAGS} -I/usr/include/ncursesw" \
 		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
-		CONF_ARGS="--prefix=/usr --with-global-runtime=/usr/share/vim" \
+		CONF_ARGS="--prefix=/usr" \
 		CONF_OPT_FEAT="--with-features=huge --disable-gpm --disable-sysmouse" \
 		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
 		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin-xfree@cygwin.com>\""
@@ -52,13 +68,13 @@ src_install() {
 	local x z
 
 	cd ${B}/gui/src
-	cygmake installvimbin -j1 DESTDIR=${D}
+	cygmake installvimbin -j1 DESTDIR=${D} STRIP=:
 
 	mv ${D}/usr/bin/{,g}vim.exe
 
 	cd ${B}/console
 	cygmake install -j1 \
-		DESTDIR=${D} INSTALL_DATA="cp -L" INSTALL_DATA_R="cp -Lr"
+		DESTDIR=${D} STRIP=: INSTALL_DATA="cp -L" INSTALL_DATA_R="cp -Lr"
 
 	mv ${D}/usr/bin/vim{,-nox}.exe
 

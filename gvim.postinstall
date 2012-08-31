@@ -4,3 +4,7 @@
 	--slave   /usr/bin/vimdiff vimdiff /usr/bin/gvim.exe \
 	--slave   /usr/bin/rvim rvim /usr/bin/gvim.exe \
 	--slave   /usr/bin/rview rview /usr/bin/gvim.exe
+
+/usr/bin/gtk-update-icon-cache --force /usr/share/icons/hicolor
+/usr/bin/update-desktop-database
+/usr/bin/update-mime-database /usr/share/mime
