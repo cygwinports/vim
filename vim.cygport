@@ -1,5 +1,8 @@
 slot="${PV[1]}.${PV[2]}"
 
+NAME="vim"
+VERSION=7.3.762
+RELEASE=1
 CATEGORY="Editors"
 SUMMARY="Vi IMproved - enhanced vi editor"
 DESCRIPTION="Vim (Vi IMproved) is an almost compatible version of the UNIX
@@ -28,7 +31,7 @@ vim_common_SUMMARY="${SUMMARY} (common runtime)"
 vim_common_REQUIRES="xxd"
 vim_common_CONTENTS="--exclude=xxd.1* etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
 gvim_SUMMARY="GTK interface to the Vim text editor"
-gvim_REQUIRES="vim-common font-adobe-dpi75"
+gvim_REQUIRES="vim-common font-adobe-dpi100"
 gvim_CONTENTS="etc/p*/gvim.* usr/bin/evi* usr/bin/*gvi* usr/share/applications/ usr/share/icons/"
 xxd_SUMMARY="Hexdump utility"
 xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
