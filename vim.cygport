@@ -1,7 +1,7 @@
 slot="${PV[1]}.${PV[2]}"
 
 NAME="vim"
-VERSION=7.3.762
+VERSION=7.3.822
 RELEASE=1
 CATEGORY="Editors"
 SUMMARY="Vi IMproved - enhanced vi editor"
@@ -38,6 +38,13 @@ xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.
 PKG_IGNORE="etc/postinstall/vim.sh"
 
 DIFF_EXCLUDES="tags"
+
+CYGPORT_USE_UNSTABLE_API=1
+src_unpack_hook() {
+	check_prog_req iconv libiconv
+	iconv -f ISO-8859-1 -t UTF-8 runtime/doc/eval.txt \
+	    > runtime/doc/eval.tmp && mv -f runtime/doc/eval.{tmp,txt}
+}
 
 src_compile() {
 	mkdir -p ${B}/console
