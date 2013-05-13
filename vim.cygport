@@ -1,7 +1,9 @@
+inherit lua perl python python3 ruby
+
 slot="${PV[1]}.${PV[2]}"
 
 NAME="vim"
-VERSION=7.3.822
+VERSION=7.3.943
 RELEASE=1
 CATEGORY="Editors"
 SUMMARY="Vi IMproved - enhanced vi editor"
@@ -13,7 +15,8 @@ HOMEPAGE="http://www.vim.org/"
 SRC_URI="mirror://vim/unix/${PN}-${slot}.tar.bz2
          mirror://portage/app-editors/vim/files/vim-completion
          mirror://portage/app-editors/gvim/files/gvim-completion
-         mirror://portage/app-editors/gvim/files/gvim.desktop-r2"
+	 http://pkgs.fedoraproject.org/cgit/vim.git/plain/gvim.desktop
+"
 SRC_DIR="${PN}${slot//.}"
 
 if defined PV[3]
@@ -24,18 +27,24 @@ then
 	done
 fi
 
-PKG_NAMES="vim vim-common gvim xxd"
-vim_REQUIRES="vim-common"
-vim_CONTENTS="--exclude=evi* --exclude=*gvi* --exclude=xxd* etc/p*/vim-* usr/bin/"
+PATCH_URI+=" 7.3-cygwin-mouse.patch 7.3-cygwin-python-dyn.patch"
+
+PKG_NAMES="vim vim-common vim-minimal gvim xxd"
+vim_REQUIRES="vim-common" # lua perl python python3 ruby
+vim_CONTENTS="usr/bin/rvi[em]* usr/bin/vi[em]*"
 vim_common_SUMMARY="${SUMMARY} (common runtime)"
 vim_common_REQUIRES="xxd"
-vim_common_CONTENTS="--exclude=xxd.1* etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
+vim_common_CONTENTS="--exclude=ev*.1* --exclude=*gv*.1* --exclude=xxd.1*
+	etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
+vim_minimal_SUMMARY="Minimal Vi text editor"
+vim_minimal_CONTENTS="usr/bin/ex usr/bin/rvi usr/bin/vi.exe"
 gvim_SUMMARY="GTK interface to the Vim text editor"
-gvim_REQUIRES="vim-common font-adobe-dpi100"
-gvim_CONTENTS="etc/p*/gvim.* usr/bin/evi* usr/bin/*gvi* usr/share/applications/ usr/share/icons/"
+gvim_REQUIRES="vim-common font-adobe-dpi100" # lua perl python python3 ruby
+gvim_CONTENTS="etc/postinstall/ usr/bin/evi* usr/bin/*gvi* usr/share/applications/
+	usr/share/icons/ usr/share/man/man1/evi* usr/share/man/man1/*gvi*
+        usr/share/man/*/man1/ev* usr/share/man/*/man1/*gvi*"
 xxd_SUMMARY="Hexdump utility"
 xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
-PKG_IGNORE="etc/postinstall/vim.sh"
 
 DIFF_EXCLUDES="tags"
 
@@ -47,62 +56,100 @@ src_unpack_hook() {
 }
 
 src_compile() {
-	mkdir -p ${B}/console
-	cd ${B}/console
-	lndirs ${S}
-	cygmake -j1 \
-		CC="${CC}" \
-		CFLAGS="${CFLAGS} -fno-strength-reduce -fdebug-prefix-map=${B}/console=/usr/src/debug/${PF}" \
-		CPPFLAGS="${CPPFLAGS} -I/usr/include/ncursesw" \
-		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
-		CONF_ARGS="--prefix=/usr" \
-		CONF_OPT_FEAT="--with-features=huge --disable-gpm --disable-sysmouse" \
-		CONF_OPT_GUI="--disable-gui --without-x" \
-		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin-xfree@cygwin.com>\""
+	lndirs
+	cd ${B}/src
+	CPPFLAGS+=" -I/usr/include/ncursesw"
 
-	mkdir -p ${B}/gui
-	cd ${B}/gui
-	lndirs ${S}
-	cygmake -j1 \
-		CC="${CC}" \
-		CFLAGS="${CFLAGS} -fno-strength-reduce -fdebug-prefix-map=${B}/gui=/usr/src/debug/${PF}" \
-		CPPFLAGS="${CPPFLAGS} -I/usr/include/ncursesw" \
-		LDFLAGS="${LDFLAGS} -L/usr/lib/ncursesw" \
-		CONF_ARGS="--prefix=/usr" \
-		CONF_OPT_FEAT="--with-features=huge --disable-gpm --disable-sysmouse" \
-		CONF_OPT_GUI="--enable-gui=gtk2 --disable-gtktest" \
-		CONF_OPT_COMPBY="\"--with-compiledby=Cygwin Ports <cygwin-xfree@cygwin.com>\""
+	cygconf \
+		--with-features=huge \
+		--with-tlib=ncursesw \
+		--enable-multibyte \
+		--enable-luainterp=dynamic \
+		--enable-perlinterp=dynamic \
+		--enable-pythoninterp=dynamic \
+		--enable-python3interp=dynamic \
+		--enable-rubyinterp=dynamic \
+		--disable-tclinterp \
+		--disable-gpm --disable-sysmouse \
+		--enable-gui=gtk2 --disable-gtktest --with-x \
+		"--with-compiledby=<cygwin-xfree@cygwin.com>"
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
+	mv vim.exe gvim.exe
+	cygmake distclean
+
+	cygconf \
+		--with-features=small \
+		--with-tlib=ncursesw \
+		--enable-multibyte \
+		--disable-luainterp \
+		--disable-perlinterp \
+		--disable-pythoninterp \
+		--disable-python3interp \
+		--disable-rubyinterp \
+		--disable-tclinterp \
+		--disable-gpm --disable-sysmouse \
+		--disable-gui --without-x \
+		"--with-compiledby=<cygwin@cygwin.com>"
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
+	mv vim.exe vi.exe
+	cygmake distclean
+
+	cygconf \
+		--with-features=huge \
+		--with-tlib=ncursesw \
+		--enable-multibyte \
+		--enable-luainterp=dynamic \
+		--enable-perlinterp=dynamic \
+		--enable-pythoninterp=dynamic \
+		--enable-python3interp=dynamic \
+		--enable-rubyinterp=dynamic \
+		--disable-tclinterp \
+		--disable-gpm --disable-sysmouse \
+		--disable-gui --without-x \
+		"--with-compiledby=<cygwin@cygwin.com>"
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 }
 
 src_install() {
 	local x z
+	cd ${B}/src
+	cyginstall -j1 \
+		VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.} \
+		STRIP=: INSTALL_DATA="cp -L" INSTALL_DATA_R="cp -Lr"
 
-	cd ${B}/gui/src
-	cygmake installvimbin -j1 DESTDIR=${D} STRIP=:
+	dobin vi.exe gvim.exe gvimtutor
 
-	mv ${D}/usr/bin/{,g}vim.exe
+	# from src/main.c:
+	# * If the executable name starts with "r" we disable shell commands.
+	# * If the next character is "e" we run in Easy mode.
+	# * If the next character is "g" we run the GUI version.
+	# * If the next characters are "view" we start in readonly mode.
+	# * If the next characters are "diff" or "vimdiff" we start in diff mode.
+	# * If the next characters are "ex" we start in Ex mode.  If it's followed
+	#   by "im" use improved Ex mode.
+	# But we have to skip exim (improved Ex) due to conflict with the MTA
 
-	cd ${B}/console
-	cygmake install -j1 \
-		DESTDIR=${D} STRIP=: INSTALL_DATA="cp -L" INSTALL_DATA_R="cp -Lr"
-
-	mv ${D}/usr/bin/vim{,-nox}.exe
-
-	for x in eview evim gview gvimdiff rgview rgvim
+	for x in evim eview gview gvimdiff rgvim rgview
 	do
 		ln -sfn gvim.exe ${D}/usr/bin/${x}
 		for man1dir in $(find ${D}/usr/share/man -name man1)
 		do
-			echo ".so vim.1" > ${man1dir}/${x}.1
+			case ${x} in
+			evim)	;;
+			eview)	echo ".so evim.1" > ${man1dir}/${x}.1 ;;
+			gvimdiff)
+				echo ".so vimdiff.1" > ${man1dir}/${x}.1 ;;
+			*)	echo ".so vim.1" > ${man1dir}/${x}.1 ;;
+			esac
 		done
 	done
-	for x in ex vi
+	for x in ex rvi
 	do
-		ln -sfn vim-nox.exe ${D}/usr/bin/${x}
+		ln -sfn vi.exe ${D}/usr/bin/${x}
 	done
-	for x in rview rvim view vimdiff
+	for x in vimdiff view rview rvim
 	do
-		rm -f ${D}/usr/bin/${x}
+		ln -sfn vim.exe ${D}/usr/bin/${x}
 	done
 
 	for z in 16x16 32x32 48x48
@@ -111,7 +158,7 @@ src_install() {
 		newins ${S}/runtime/vim$z.png gvim.png
 	done
 
-	newmenu ${S}/gvim.desktop-r2 gvim.desktop
+	domenu ${S}/gvim.desktop
 
 	insinto /etc/bash_completion.d
 	doins ${S}/gvim-completion ${S}/vim-completion
