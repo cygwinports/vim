@@ -40,6 +40,7 @@ vim_common_SUMMARY="${SUMMARY} (common runtime)"
 vim_common_REQUIRES="xxd"
 vim_common_CONTENTS="--exclude=ev*.1* --exclude=*gv*.1* --exclude=xxd.1*
 	etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
+vim_minimal_CATEGORY="Base"  # ex/vi required by POSIX
 vim_minimal_SUMMARY="Minimal Vi text editor"
 vim_minimal_CONTENTS="usr/bin/ex usr/bin/rvi usr/bin/vi.exe"
 gvim_SUMMARY="GUI for the Vim text editor"
