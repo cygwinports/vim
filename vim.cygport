@@ -27,7 +27,11 @@ then
 	done
 fi
 
-PATCH_URI+=" 7.3-cygwin-mouse.patch 7.3-cygwin-python-dyn.patch"
+PATCH_URI+="
+	7.3-cygwin-mouse.patch
+	7.3-cygwin-python-dyn.patch
+	7.3-cygwin-motif.patch
+"
 
 PKG_NAMES="vim vim-common vim-minimal gvim xxd"
 vim_REQUIRES="vim-common" # lua perl python python3 ruby
@@ -38,7 +42,7 @@ vim_common_CONTENTS="--exclude=ev*.1* --exclude=*gv*.1* --exclude=xxd.1*
 	etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
 vim_minimal_SUMMARY="Minimal Vi text editor"
 vim_minimal_CONTENTS="usr/bin/ex usr/bin/rvi usr/bin/vi.exe"
-gvim_SUMMARY="GTK interface to the Vim text editor"
+gvim_SUMMARY="GUI for the Vim text editor"
 gvim_REQUIRES="vim-common font-adobe-dpi100" # lua perl python python3 ruby
 gvim_CONTENTS="etc/postinstall/ usr/bin/evi* usr/bin/*gvi* usr/share/applications/
 	usr/share/icons/ usr/share/man/man1/evi* usr/share/man/man1/*gvi*
@@ -71,7 +75,7 @@ src_compile() {
 		--enable-rubyinterp=dynamic \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
-		--enable-gui=gtk2 --disable-gtktest --with-x \
+		--enable-gui=${ARCH_i686+gtk2}${ARCH_x86_64+motif} --disable-gtktest --with-x \
 		"--with-compiledby=<cygwin-xfree@cygwin.com>"
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 	mv vim.exe gvim.exe
