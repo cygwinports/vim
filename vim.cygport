@@ -76,7 +76,7 @@ src_compile() {
 		--enable-rubyinterp=dynamic \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
-		--enable-gui=${ARCH_i686+gtk2}${ARCH_x86_64+motif} --disable-gtktest --with-x \
+		--enable-gui=gtk2 --disable-gtktest --with-x \
 		"--with-compiledby=<cygwin-xfree@cygwin.com>"
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 	mv vim.exe gvim.exe
