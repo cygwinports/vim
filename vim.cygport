@@ -30,6 +30,7 @@ done
 PATCH_URI+="
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
+	7.3-virc.patch
 "
 
 PKG_NAMES="vim vim-common vim-minimal gvim xxd"
