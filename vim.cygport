@@ -34,7 +34,7 @@ PATCH_URI+="
 "
 
 PKG_NAMES="vim vim-common vim-minimal gvim xxd"
-vim_REQUIRES="vim-common" # lua perl python python3 ruby
+vim_REQUIRES="vim-common" # cscope lua perl python python3 ruby
 vim_CONTENTS="usr/bin/rvi[em]* usr/bin/vi[em]*"
 vim_common_SUMMARY="${SUMMARY} (common runtime)"
 vim_common_REQUIRES="xxd"
@@ -44,7 +44,7 @@ vim_minimal_CATEGORY="Base"  # ex/vi required by POSIX
 vim_minimal_SUMMARY="Minimal Vi text editor"
 vim_minimal_CONTENTS="usr/bin/ex usr/bin/rvi usr/bin/vi.exe"
 gvim_SUMMARY="GUI for the Vim text editor"
-gvim_REQUIRES="vim-common font-adobe-dpi100" # lua perl python python3 ruby
+gvim_REQUIRES="vim-common font-adobe-dpi100" # cscope lua perl python python3 ruby
 gvim_CONTENTS="etc/postinstall/ usr/bin/evi* usr/bin/*gvi* usr/share/applications/
 	usr/share/icons/ usr/share/man/man1/evi* usr/share/man/man1/*gvi*
         usr/share/man/*/man1/ev* usr/share/man/*/man1/*gvi*"
@@ -68,6 +68,7 @@ src_compile() {
 	cygconf \
 		--with-features=huge \
 		--with-tlib=ncursesw \
+		--enable-cscope \
 		--enable-multibyte \
 		--enable-luainterp=dynamic \
 		--enable-perlinterp=dynamic \
@@ -102,6 +103,7 @@ src_compile() {
 	cygconf \
 		--with-features=huge \
 		--with-tlib=ncursesw \
+		--enable-cscope \
 		--enable-multibyte \
 		--enable-luainterp=dynamic \
 		--enable-perlinterp=dynamic \
