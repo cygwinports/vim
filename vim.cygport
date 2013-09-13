@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.3.1152
+VERSION=7.3.1314
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -22,7 +22,7 @@ for n in $(seq -f "%03.0f" ${VERSION##*.})
 do
 	case $n in
 	# patches which do not apply (usually fixed sooner or later)
-	1111) ;;
+#	9999) ;;
 	*)  PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}" ;;
 	esac
 done
@@ -79,6 +79,7 @@ src_compile() {
 		--disable-gpm --disable-sysmouse \
 		--enable-gui=gtk2 --disable-gtktest --with-x \
 		"--with-compiledby=<cygwin-xfree@cygwin.com>"
+	cygmake auto/osdef.h
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 	mv vim.exe gvim.exe
 	cygmake distclean
@@ -96,6 +97,7 @@ src_compile() {
 		--disable-gpm --disable-sysmouse \
 		--disable-gui --without-x \
 		"--with-compiledby=<cygwin@cygwin.com>"
+	cygmake auto/osdef.h
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 	mv vim.exe vi.exe
 	cygmake distclean
@@ -114,6 +116,7 @@ src_compile() {
 		--disable-gpm --disable-sysmouse \
 		--disable-gui --without-x \
 		"--with-compiledby=<cygwin@cygwin.com>"
+	cygmake auto/osdef.h
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 }
 
