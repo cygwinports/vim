@@ -7,9 +7,8 @@ options which users may have in their vimrc.
   * Unix system-dependent file names
   */
  #ifndef SYS_VIMRC_FILE
--# define SYS_VIMRC_FILE "$VIM/vimrc"
 +# ifdef FEAT_NORMAL
-+# define SYS_VIMRC_FILE "/etc/vimrc"
+ # define SYS_VIMRC_FILE "$VIM/vimrc"
 +# else
 +# define SYS_VIMRC_FILE "/etc/virc"
 +# endif
