@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.135
+VERSION=7.4.169
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -31,7 +31,6 @@ PATCH_URI+="
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
 	7.3-virc.patch
-	7.4-cygwin-mbyte.patch
 "
 
 PKG_NAMES="vim vim-common vim-minimal gvim xxd"
