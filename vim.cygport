@@ -65,7 +65,6 @@ src_unpack_hook() {
 src_compile() {
 	lndirs
 	cd ${B}/src
-	CPPFLAGS+=" -I/usr/include/ncursesw"
 
 	cygconf \
 		--with-features=huge \
