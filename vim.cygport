@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.417
+VERSION=7.4.516
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -82,7 +82,8 @@ src_compile() {
 		--enable-gui=gtk2 --disable-gtktest --with-x \
 		"--with-compiledby=<cygwin-xfree@cygwin.com>"
 	cygmake auto/osdef.h
-	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.} \
+		PERL_XSUBPP=${PERL_VENDORLIB}/ExtUtils/xsubpp
 	mv vim.exe gvim.exe
 	cygmake distclean
 
@@ -119,7 +120,8 @@ src_compile() {
 		--disable-gui --without-x \
 		"--with-compiledby=<cygwin@cygwin.com>"
 	cygmake auto/osdef.h
-	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.} \
+		PERL_XSUBPP=${PERL_VENDORLIB}/ExtUtils/xsubpp
 }
 
 src_install() {
