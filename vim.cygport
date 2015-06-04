@@ -3,7 +3,7 @@ inherit lua perl python python3 ruby
 NAME="vim"
 VERSION=7.4.729
 slot=${VERSION%.*}
-RELEASE=2
+RELEASE=3
 CATEGORY="Editors"
 SUMMARY="Vi IMproved - enhanced vi editor"
 DESCRIPTION="Vim (Vi IMproved) is an almost compatible version of the UNIX
