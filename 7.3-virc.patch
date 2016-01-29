@@ -8,13 +8,13 @@ options which users may have in their vimrc.
   */
  #ifndef SYS_VIMRC_FILE
 +# ifdef FEAT_NORMAL
- # define SYS_VIMRC_FILE "$VIM/vimrc"
+ # define SYS_VIMRC_FILE "/etc/vimrc"
 +# else
 +# define SYS_VIMRC_FILE "/etc/virc"
 +# endif
  #endif
  #ifndef SYS_GVIMRC_FILE
- # define SYS_GVIMRC_FILE "$VIM/gvimrc"
+ # define SYS_GVIMRC_FILE "/etc/gvimrc"
 @@ -290,7 +294,11 @@ typedef struct dsc$descriptor   DESC;
  # ifdef VMS
  # define USR_VIMRC_FILE  "sys$login:.vimrc"

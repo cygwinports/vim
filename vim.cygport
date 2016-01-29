@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.891
+VERSION=7.4.1179
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -14,7 +14,8 @@ HOMEPAGE="http://www.vim.org/"
 SRC_URI="mirror://vim/unix/${NAME}-${slot}.tar.bz2
          mirror://portage/app-editors/vim/files/vim-completion
          mirror://portage/app-editors/gvim/files/gvim-completion
-	 http://pkgs.fedoraproject.org/cgit/vim.git/plain/gvim.desktop
+	 fedora/gvim.desktop
+	 fedora/vimrc
 "
 SRC_DIR="${NAME}${slot//.}"
 
@@ -22,12 +23,24 @@ for n in $(seq -f "%03.0f" ${VERSION##*.})
 do
 	case $n in
 	# patches which do not apply (usually fixed sooner or later)
-	802|809) ;;
+#	9999) ;;
 	*)  PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}" ;;
 	esac
 done
 
 PATCH_URI+="
+	fedora/vim-7.0-fixkeys.patch
+	fedora/vim-6.2-specsyntax.patch
+	fedora/vim-7.4-syntax.patch
+	fedora/vim-7.1-nowarnings.patch
+	fedora/vim-7.0-rclocation.patch
+	fedora/vim-7.4-fstabsyntax.patch
+	fedora/vim-7.0-warning.patch
+	fedora/vim-7.4-syncolor.patch
+	fedora/vim72-rh514717.patch
+	fedora/vim-7.3-manpage-typo-668894-675480.patch
+	fedora/vim-manpagefixes-948566.patch
+	fedora/vim-7.4-licensemacro-1151450.patch
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
 	7.3-virc.patch
@@ -35,19 +48,63 @@ PATCH_URI+="
 
 PKG_NAMES="vim vim-common vim-minimal gvim xxd"
 vim_REQUIRES="vim-common" # cscope lua perl python python3 ruby
-vim_CONTENTS="usr/bin/rvi[em]* usr/bin/vi[em]*"
+vim_CONTENTS="
+	etc/bash_completion.d/vim-completion
+	etc/profile.d/vim.*
+	usr/bin/rvim
+	usr/bin/vim.exe
+	usr/bin/vimdiff
+	usr/bin/vimtutor
+"
 vim_common_SUMMARY="${SUMMARY} (common runtime)"
 vim_common_REQUIRES="xxd"
-vim_common_CONTENTS="--exclude=ev*.1* --exclude=*gv*.1* --exclude=xxd.1*
-	etc/bash_completion.d/ usr/share/doc/ usr/share/man/ usr/share/vim/"
+vim_common_CONTENTS="
+	--exclude=e*.1* --exclude=rvi.1* --exclude=rview.1* --exclude=vi.1*
+	--exclude=view.1* --exclude=vimx.1* --exclude=g[ev]*.1*
+	--exclude=rgv*.1* --exclude=xxd.1*
+	etc/defaults/
+	etc/postinstall/vim.sh
+	etc/preremove/vim.sh
+	usr/share/doc/
+	usr/share/man/
+	usr/share/vim/
+"
 vim_minimal_CATEGORY="Base"  # ex/vi required by POSIX
 vim_minimal_SUMMARY="Minimal Vi text editor"
-vim_minimal_CONTENTS="usr/bin/ex usr/bin/rvi usr/bin/vi.exe"
+vim_minimal_CONTENTS="
+	usr/bin/ex
+	usr/bin/rvi
+	usr/bin/rview
+	usr/bin/vi.exe
+	usr/bin/view
+	usr/share/man/man1/ex.*
+	usr/share/man/man1/rvi.*
+	usr/share/man/man1/rview.*
+	usr/share/man/man1/vi.*
+	usr/share/man/man1/view.*
+	usr/share/man/*/man1/ex.*
+	usr/share/man/*/man1/rvi.*
+	usr/share/man/*/man1/rview.*
+	usr/share/man/*/man1/vi.*
+	usr/share/man/*/man1/view.*
+"
 gvim_SUMMARY="GUI for the Vim text editor"
-gvim_REQUIRES="vim-common font-adobe-dpi100" # cscope lua perl python python3 ruby
-gvim_CONTENTS="etc/postinstall/ usr/bin/evi* usr/bin/*gvi* usr/share/applications/
-	usr/share/icons/ usr/share/man/man1/evi* usr/share/man/man1/*gvi*
-        usr/share/man/*/man1/ev* usr/share/man/*/man1/*gvi*"
+gvim_REQUIRES="vim-common" # cscope lua perl python python3 ruby
+gvim_CONTENTS="
+	etc/bash_completion.d/gvim-completion
+	etc/postinstall/vim.sh
+	usr/bin/ev*
+	usr/bin/*g[ev]*
+	usr/bin/vimx
+	usr/share/applications/
+	usr/share/icons/
+	usr/share/man/man1/ev*
+	usr/share/man/man1/*g[ev]*
+	usr/share/man/man1/vimx.1*
+	usr/share/man/*/man1/ev*
+	usr/share/man/*/man1/*g[ev]*
+	usr/share/man/*/man1/vimx.1*
+"
 xxd_SUMMARY="Hexdump utility"
 xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
 
@@ -78,11 +135,11 @@ src_compile() {
 		--enable-rubyinterp=dynamic \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
-		--enable-gui=gtk2 --disable-gtktest --with-x \
-		"--with-compiledby=<cygwin-xfree@cygwin.com>"
+		--enable-gui=gtk2 --disable-gtktest --with-x --enable-xim \
+		"--with-compiledby=<cygwin@cygwin.com>" \
+		"--with-modified-by=<cygwin@cygwin.com>"
 	cygmake auto/osdef.h
-	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.} \
-		PERL_XSUBPP=${PERL_VENDORLIB}/ExtUtils/xsubpp
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 	mv vim.exe gvim.exe
 	cygmake -j1 distclean
 
@@ -98,7 +155,8 @@ src_compile() {
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
 		--disable-gui --without-x \
-		"--with-compiledby=<cygwin@cygwin.com>"
+		"--with-compiledby=<cygwin@cygwin.com>" \
+		"--with-modified-by=<cygwin@cygwin.com>"
 	cygmake auto/osdef.h
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 	mv vim.exe vi.exe
@@ -117,10 +175,10 @@ src_compile() {
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
 		--disable-gui --without-x \
-		"--with-compiledby=<cygwin@cygwin.com>"
+		"--with-compiledby=<cygwin@cygwin.com>" \
+		"--with-modified-by=<cygwin@cygwin.com>"
 	cygmake auto/osdef.h
-	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.} \
-		PERL_XSUBPP=${PERL_VENDORLIB}/ExtUtils/xsubpp
+	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 }
 
 src_install() {
@@ -142,27 +200,37 @@ src_install() {
 	#   by "im" use improved Ex mode.
 	# But we have to skip exim (improved Ex) due to conflict with the MTA
 
-	for x in evim eview gview gvimdiff rgvim rgview
+	for x in evim eview gview gvimdiff rgvim rgview gex vimx
 	do
 		ln -sfn gvim.exe ${D}/usr/bin/${x}
-		for man1dir in $(find ${D}/usr/share/man -name man1)
-		do
-			case ${x} in
-			evim)	;;
-			eview)	echo ".so evim.1" > ${man1dir}/${x}.1 ;;
-			gvimdiff)
-				echo ".so vimdiff.1" > ${man1dir}/${x}.1 ;;
-			*)	echo ".so vim.1" > ${man1dir}/${x}.1 ;;
-			esac
-		done
 	done
-	for x in ex rvi
+	for x in ex rvi view rview
 	do
 		ln -sfn vi.exe ${D}/usr/bin/${x}
 	done
-	for x in vimdiff view rview rvim
+	for x in vimdiff rvim
 	do
 		ln -sfn vim.exe ${D}/usr/bin/${x}
+	done
+
+	for man1dir in $(find ${D}/usr/share/man -name man1)
+	do
+		cp -f ${man1dir}/{vim,vi}.1
+		for x in ${D}/usr/bin/*
+		do
+			x=${x##*/}
+			case ${x} in
+			*.exe|evim|vimdiff|vimtutor)	;;
+			eview)	echo ".so evim.1" > ${man1dir}/${x}.1 ;;
+			gvimdiff)
+				echo ".so vimdiff.1" > ${man1dir}/${x}.1 ;;
+			gvimtutor)
+				echo ".so vimtutor.1" > ${man1dir}/${x}.1 ;;
+			ex|rvi|rview|view)
+				echo ".so vi.1" > ${man1dir}/${x}.1 ;;
+			*)	echo ".so vim.1" > ${man1dir}/${x}.1 ;;
+			esac
+		done
 	done
 
 	for z in 16x16 32x32 48x48
@@ -175,4 +243,26 @@ src_install() {
 
 	insinto /etc/bash_completion.d
 	doins ${S}/gvim-completion ${S}/vim-completion
+
+	insinto /etc
+	doins ${S}/vimrc
+	make_etc_defaults /etc/vimrc
+
+	dodir /etc/profile.d
+	cat > ${D}/etc/profile.d/vim.sh <<EOF
+if [ -n "\$BASH_VERSION" -o -n "\$KSH_VERSION" -o -n "\$ZSH_VERSION" ]; then
+  # for bash and zsh, only if no alias is already set
+  alias vi >/dev/null 2>&1 || alias vi=vim
+fi
+EOF
+	cat > ${D}/etc/profile.d/vim.csh <<EOF
+alias vi vim
+EOF
+
+	# minimize optional dependencies
+	pushd ${D}/usr/share/vim/vim${slot/\.}
+	chmod -x doc/vim2html.pl tools/*.pl tools/mve.awk tools/vim132
+	popd
+
+	newdoc ${S}/runtime/doc/uganda.txt LICENSE
 }
