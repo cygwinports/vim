@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.1278
+VERSION=7.4.1320
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
