@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.1320
+VERSION=7.4.1385
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -32,12 +32,10 @@ PATCH_URI+="
 	fedora/vim-7.0-fixkeys.patch
 	fedora/vim-6.2-specsyntax.patch
 	fedora/vim-7.4-syntax.patch
-	fedora/vim-7.1-nowarnings.patch
+	fedora/vim-7.4-nowarnings.patch
 	fedora/vim-7.0-rclocation.patch
 	fedora/vim-7.4-fstabsyntax.patch
-	fedora/vim-7.0-warning.patch
 	fedora/vim-7.4-syncolor.patch
-	fedora/vim72-rh514717.patch
 	fedora/vim-7.3-manpage-typo-668894-675480.patch
 	fedora/vim-manpagefixes-948566.patch
 	fedora/vim-7.4-licensemacro-1151450.patch
