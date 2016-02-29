@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.1385
+VERSION=7.4.1459
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -23,7 +23,7 @@ for n in $(seq -f "%03.0f" ${VERSION##*.})
 do
 	case $n in
 	# patches which do not apply (usually fixed sooner or later)
-#	9999) ;;
+	1425) ;;
 	*)  PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}" ;;
 	esac
 done
