@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.1459
+VERSION=7.4.1506
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -44,7 +44,7 @@ PATCH_URI+="
 	7.3-virc.patch
 "
 
-PKG_NAMES="vim vim-common vim-minimal gvim xxd"
+PKG_NAMES="vim vim-common vim-minimal gvim xxd vim-doc"
 vim_REQUIRES="vim-common" # cscope lua perl python python3 ruby
 vim_CONTENTS="
 	etc/bash_completion.d/vim-completion
@@ -59,7 +59,7 @@ vim_common_REQUIRES="xxd"
 vim_common_CONTENTS="
 	--exclude=e*.1* --exclude=rvi.1* --exclude=rview.1* --exclude=vi.1*
 	--exclude=view.1* --exclude=vimx.1* --exclude=g[ev]*.1*
-	--exclude=rgv*.1* --exclude=xxd.1*
+	--exclude=rgv*.1* --exclude=xxd.1* --exclude=html
 	etc/defaults/
 	etc/postinstall/vim.sh
 	etc/preremove/vim.sh
@@ -105,17 +105,10 @@ gvim_CONTENTS="
 "
 xxd_SUMMARY="Hexdump utility"
 xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
+vim_doc_SUMMARY="Vim Reference Manual"
+vim_doc_CONTENTS="usr/share/doc/vim/html/"
 
 DIFF_EXCLUDES="tags"
-
-CYGPORT_USE_UNSTABLE_API=1
-src_unpack_hook() {
-	check_prog_req iconv libiconv
-	for f in runtime/doc/eval.txt src/testdir/test71.ok
-	do
-		iconv -f ISO-8859-1 -t UTF-8 $f > $f.utf8 && mv -f $f.utf8 $f
-	done
-}
 
 src_compile() {
 	lndirs
@@ -177,6 +170,9 @@ src_compile() {
 		"--with-modified-by=<cygwin@cygwin.com>"
 	cygmake auto/osdef.h
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
+
+	cd ${B}/runtime/doc
+	cygmake perlhtml
 }
 
 src_install() {
@@ -259,8 +255,13 @@ EOF
 
 	# minimize optional dependencies
 	pushd ${D}/usr/share/vim/vim${slot/\.}
-	chmod -x doc/vim2html.pl tools/*.pl tools/mve.awk tools/vim132
+	# this is used in 'make perlhtml'
+	rm -f doc/vim2html.pl
+	# these are just samples, maybe should be in doc
+	rm -fr tools/
 	popd
 
 	newdoc ${S}/runtime/doc/uganda.txt LICENSE
+	docinto html
+	dodoc ${B}/runtime/doc/*.{html,css}
 }
