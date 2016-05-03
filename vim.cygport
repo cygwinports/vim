@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.1558
+VERSION=7.4.1816
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -11,23 +11,12 @@ editor vi. Almost every possible command can be performed using only ASCII
 characters. Many new features have been added: multilevel undo, command line
 history, file name completion, block operations, and editing of binary data."
 HOMEPAGE="http://www.vim.org/"
-SRC_URI="mirror://vim/unix/${NAME}-${slot}.tar.bz2
+SRC_URI="https://github.com/vim/vim/archive/v${VERSION}/vim-v${VERSION}.tar.gz
          mirror://portage/app-editors/vim/files/vim-completion
          mirror://portage/app-editors/gvim/files/gvim-completion
 	 fedora/gvim.desktop
 	 fedora/vimrc
 "
-SRC_DIR="${NAME}${slot//.}"
-
-for n in $(seq -f "%03.0f" ${VERSION##*.})
-do
-	case $n in
-	# patches which do not apply (usually fixed sooner or later)
-	1425) ;;
-	*)  PATCH_URI+=" mirror://vim/patches/${slot}/${slot}.${n}" ;;
-	esac
-done
-
 PATCH_URI+="
 	fedora/vim-7.0-fixkeys.patch
 	fedora/vim-6.2-specsyntax.patch
@@ -36,7 +25,6 @@ PATCH_URI+="
 	fedora/vim-7.0-rclocation.patch
 	fedora/vim-7.4-fstabsyntax.patch
 	fedora/vim-7.4-syncolor.patch
-	fedora/vim-7.3-manpage-typo-668894-675480.patch
 	fedora/vim-manpagefixes-948566.patch
 	fedora/vim-7.4-licensemacro-1151450.patch
 	7.3-cygwin-mouse.patch
@@ -114,6 +102,8 @@ src_compile() {
 	lndirs
 	cd ${B}/src
 
+	CFLAGS+=" -fstack-protector-strong"
+	LDFLAGS+=" -fstack-protector-strong"
 	cygconf \
 		--with-features=huge \
 		--with-tlib=ncursesw \
@@ -172,6 +162,7 @@ src_compile() {
 	cygmake VIMRCLOC=/etc VIMRUNTIMEDIR=/usr/share/vim/vim${slot/\.}
 
 	cd ${B}/runtime/doc
+	chmod +x vim2html.pl
 	cygmake perlhtml
 }
 
