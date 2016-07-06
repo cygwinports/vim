@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.1816
+VERSION=7.4.1990
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -19,7 +19,6 @@ SRC_URI="https://github.com/vim/vim/archive/v${VERSION}/vim-v${VERSION}.tar.gz
 "
 PATCH_URI+="
 	fedora/vim-7.0-fixkeys.patch
-	fedora/vim-6.2-specsyntax.patch
 	fedora/vim-7.4-syntax.patch
 	fedora/vim-7.4-nowarnings.patch
 	fedora/vim-7.0-rclocation.patch
