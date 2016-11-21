@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=7.4.2367
+VERSION=8.0.0094
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -14,7 +14,6 @@ HOMEPAGE="http://www.vim.org/"
 SRC_URI="https://github.com/vim/vim/archive/v${VERSION}/vim-v${VERSION}.tar.gz
          mirror://portage/app-editors/vim/files/vim-completion
          mirror://portage/app-editors/gvim/files/gvim-completion
-	 fedora/gvim.desktop
 	 fedora/vimrc
 "
 PATCH_URI+="
@@ -40,6 +39,7 @@ vim_CONTENTS="
 	usr/bin/vim.exe
 	usr/bin/vimdiff
 	usr/bin/vimtutor
+	usr/share/applications/vim.desktop
 "
 vim_common_SUMMARY="${SUMMARY} (common runtime)"
 vim_common_REQUIRES="xxd"
@@ -51,6 +51,7 @@ vim_common_CONTENTS="
 	etc/postinstall/vim.sh
 	etc/preremove/vim.sh
 	usr/share/doc/
+	usr/share/icons/
 	usr/share/man/
 	usr/share/vim/
 "
@@ -77,12 +78,10 @@ gvim_SUMMARY="GUI for the Vim text editor"
 gvim_REQUIRES="vim-common" # cscope lua perl python python3 ruby
 gvim_CONTENTS="
 	etc/bash_completion.d/gvim-completion
-	etc/postinstall/vim.sh
 	usr/bin/ev*
 	usr/bin/*g[ev]*
 	usr/bin/vimx
-	usr/share/applications/
-	usr/share/icons/
+	usr/share/applications/gvim.desktop
 	usr/share/man/man1/ev*
 	usr/share/man/man1/*g[ev]*
 	usr/share/man/man1/vimx.1*
@@ -115,7 +114,7 @@ src_compile() {
 		--enable-rubyinterp=dynamic \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
-		--enable-gui=gtk2 --disable-gtktest --with-x --enable-xim \
+		--enable-gui=gtk3 --disable-gtktest --with-x --enable-xim \
 		"--with-compiledby=<cygwin@cygwin.com>" \
 		"--with-modified-by=<cygwin@cygwin.com>"
 	cygmake auto/osdef.h
@@ -222,8 +221,6 @@ src_install() {
 		insinto /usr/share/icons/hicolor/$z/apps
 		newins ${S}/runtime/vim$z.png gvim.png
 	done
-
-	domenu ${S}/gvim.desktop
 
 	insinto /etc/bash_completion.d
 	doins ${S}/gvim-completion ${S}/vim-completion
