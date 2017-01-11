@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=8.0.0094
+VERSION=8.0.0170
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -25,6 +25,7 @@ PATCH_URI+="
 	fedora/vim-7.4-syncolor.patch
 	fedora/vim-manpagefixes-948566.patch
 	fedora/vim-7.4-licensemacro-1151450.patch
+	fedora/vim-8.0-copy-paste.patch
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
 	7.3-virc.patch
@@ -237,6 +238,9 @@ if [ -n "\$BASH_VERSION" -o -n "\$KSH_VERSION" -o -n "\$ZSH_VERSION" ]; then
 fi
 EOF
 	cat > ${D}/etc/profile.d/vim.csh <<EOF
+alias vi vim
+EOF
+	cat > ${D}/etc/profile.d/vim.fish <<EOF
 alias vi vim
 EOF
 
