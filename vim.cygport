@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=8.0.0494
+VERSION=8.0.0525
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -18,13 +18,19 @@ SRC_URI="https://github.com/vim/vim/archive/v${VERSION}/vim-v${VERSION}.tar.gz
 "
 PATCH_URI+="
 	fedora/vim-7.0-fixkeys.patch
+	fedora/vim-7.4-specsyntax.patch
 	fedora/vim-7.4-syntax.patch
 	fedora/vim-7.4-nowarnings.patch
 	fedora/vim-7.0-rclocation.patch
+	fedora/vim-7.4-checkhl.patch
 	fedora/vim-7.4-fstabsyntax.patch
 	fedora/vim-7.4-syncolor.patch
+	fedora/vim-7.3-manpage-typo-668894-675480.patch
 	fedora/vim-manpagefixes-948566.patch
 	fedora/vim-7.4-licensemacro-1151450.patch
+	fedora/vim-7.4-globalsyntax.patch
+	fedora/vim-7.4-releasestring-1318991.patch
+	fedora/vim-8.0-rhbz1365258.patch
 	fedora/vim-8.0-copy-paste.patch
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
@@ -32,7 +38,8 @@ PATCH_URI+="
 "
 
 PKG_NAMES="vim vim-common vim-minimal gvim xxd vim-doc"
-vim_REQUIRES="vim-common" # cscope lua perl python python3 ruby
+PKG_NAMES+=" vim-lua vim-perl vim-python vim-python3 vim-ruby"
+vim_REQUIRES="vim-common" # cscope
 vim_CONTENTS="
 	etc/bash_completion.d/vim-completion
 	etc/profile.d/vim.*
@@ -94,6 +101,18 @@ xxd_SUMMARY="Hexdump utility"
 xxd_CONTENTS="usr/bin/xxd.exe usr/share/man/man1/xxd.* usr/share/man/*/man1/xxd.*"
 vim_doc_SUMMARY="Vim Reference Manual"
 vim_doc_CONTENTS="usr/share/doc/vim/html/"
+# these are solely to indicate that rebuilds are needed along with version
+# bumps to the language interpreters
+vim_lua_CATEGORY="_obsolete"
+vim_lua_REQUIRES="vim lua"
+vim_perl_CATEGORY="_obsolete"
+vim_perl_REQUIRES="vim perl"
+vim_python_CATEGORY="_obsolete"
+vim_python_REQUIRES="vim python2"
+vim_python3_CATEGORY="_obsolete"
+vim_python3_REQUIRES="vim python3"
+vim_ruby_CATEGORY="_obsolete"
+vim_ruby_REQUIRES="vim ruby"
 
 DIFF_EXCLUDES="tags"
 
