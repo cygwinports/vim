@@ -1,7 +1,7 @@
 inherit lua perl python python3 ruby
 
 NAME="vim"
-VERSION=8.0.1376
+VERSION=8.0.1428
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -32,6 +32,7 @@ PATCH_URI+="
 	fedora/vim-7.4-releasestring-1318991.patch
 	fedora/vim-8.0-rhbz1365258.patch
 	fedora/vim-8.0-copy-paste.patch
+	fedora/vim-blinkoff-loop.patch
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
 	7.3-virc.patch
@@ -121,7 +122,6 @@ src_compile() {
 	cd ${B}/src
 
 	CFLAGS+=" -fstack-protector-strong"
-	LDFLAGS+=" -fstack-protector-strong"
 	cygconf \
 		--with-features=huge \
 		--with-tlib=ncursesw \
