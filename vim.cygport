@@ -1,7 +1,7 @@
-inherit lua perl python python3 ruby
+inherit lua perl python2 python3 ruby
 
 NAME="vim"
-VERSION=8.0.1567
+VERSION=8.1.1240
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -27,14 +27,13 @@ PATCH_URI+="
 	fedora/vim-7.4-syncolor.patch
 	fedora/vim-7.3-manpage-typo-668894-675480.patch
 	fedora/vim-manpagefixes-948566.patch
-	fedora/vim-7.4-licensemacro-1151450.patch
 	fedora/vim-7.4-globalsyntax.patch
 	fedora/vim-7.4-releasestring-1318991.patch
 	fedora/vim-8.0-rhbz1365258.patch
 	fedora/vim-8.0-copy-paste.patch
+	fedora/vim-python3-tests.patch
 	7.3-cygwin-mouse.patch
 	7.3-cygwin-python-dyn.patch
-	8.0-cygwin-ruby-dyn.patch
 	7.3-virc.patch
 "
 
@@ -109,9 +108,9 @@ vim_lua_REQUIRES="vim lua"
 vim_perl_CATEGORY="_obsolete"
 vim_perl_REQUIRES="vim perl"
 vim_python_CATEGORY="_obsolete"
-vim_python_REQUIRES="vim python2"
+vim_python_REQUIRES="vim python27"
 vim_python3_CATEGORY="_obsolete"
-vim_python3_REQUIRES="vim python3"
+vim_python3_REQUIRES="vim python37"
 vim_ruby_CATEGORY="_obsolete"
 vim_ruby_REQUIRES="vim ruby"
 

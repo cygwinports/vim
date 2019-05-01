@@ -7,8 +7,8 @@ their respective libpython on PE platforms.
      int i;
      void *ucs_as_encoded_string;
  
--#if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && defined(FEAT_PYTHON3)
-+#if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && !defined(__CYGWIN__) && defined(FEAT_PYTHON3)
+-# if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && defined(FEAT_PYTHON3)
++# if !(defined(PY_NO_RTLD_GLOBAL) && defined(PY3_NO_RTLD_GLOBAL)) && defined(UNIX) && !defined(__CYGWIN__) && defined(FEAT_PYTHON3)
      /* Can't have Python and Python3 loaded at the same time.
       * It cause a crash, because RTLD_GLOBAL is needed for
       * standard C extension libraries of one or both python versions. */
