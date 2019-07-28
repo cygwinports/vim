@@ -1,7 +1,7 @@
 inherit lua perl python2 python3 ruby
 
 NAME="vim"
-VERSION=8.1.1240
+VERSION=8.1.1772
 slot=${VERSION%.*}
 RELEASE=1
 CATEGORY="Editors"
@@ -133,6 +133,7 @@ src_compile() {
 		--enable-rubyinterp=dynamic \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
+		--enable-canberra \
 		--enable-gui=gtk3 --disable-gtktest --with-x --enable-xim \
 		"--with-compiledby=<cygwin@cygwin.com>" \
 		"--with-modified-by=<cygwin@cygwin.com>"
@@ -152,6 +153,7 @@ src_compile() {
 		--disable-rubyinterp \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
+		--disable-canberra \
 		--disable-gui --without-x \
 		"--with-compiledby=<cygwin@cygwin.com>" \
 		"--with-modified-by=<cygwin@cygwin.com>"
@@ -172,6 +174,7 @@ src_compile() {
 		--enable-rubyinterp=dynamic \
 		--disable-tclinterp \
 		--disable-gpm --disable-sysmouse \
+		--disable-canberra \
 		--disable-gui --without-x \
 		"--with-compiledby=<cygwin@cygwin.com>" \
 		"--with-modified-by=<cygwin@cygwin.com>"
